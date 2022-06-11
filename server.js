@@ -3,6 +3,7 @@ const app = express()
 const MongoClient = require('mongodb').MongoClient
 const PORT = 2121
 require('dotenv').config()
+var nodemailer = require('nodemailer');//can help to send emails
 
 
 let db,
@@ -14,7 +15,8 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         console.log(`Connected to ${dbName} Database`)
         db = client.db(dbName)
     })
-    
+
+
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
@@ -33,6 +35,30 @@ app.post('/addRapper', (request, response) => {
     db.collection('feedback').insertOne({stageName: request.body.stageName,
     birthName: request.body.birthName, likes: 0})
     .then(result => {
+//send email+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD
+            }
+        });
+        var mailOptions = {
+            from: process.env.EMAIL_USERNAME,
+            to: process.env.EMAIL_RECEIVER,
+            subject: 'Sending Email using Node.js',
+            html: `<h3><b>${request.body.stageName}</b> left feedback on your website!</h3><p>${request.body.birthName}</p>`
+
+          };
+          
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         console.log('Rapper Added')
         response.redirect('/')
     })

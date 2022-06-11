@@ -4159,3 +4159,11 @@ input, select, textarea {
 	font-size: 20px;
 	margin-bottom: 0.75em;
 }
+
+.feedback {
+	padding-bottom: 1em;
+	border-bottom: solid 2px rgba(255, 255, 255, 0.125);
+}
+.noBullets{
+	list-style: none;
+}
