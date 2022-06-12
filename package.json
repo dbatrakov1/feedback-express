@@ -10,7 +10,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
-    },
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -20,6 +20,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.5",
     "nodemailer": "^6.7.5",
+    "react": "^18.1.0",
     "serve": "^13.0.2"
   }
 }
